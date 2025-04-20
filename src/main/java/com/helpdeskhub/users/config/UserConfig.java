@@ -1,32 +1,45 @@
 package com.helpdeskhub.users.config;
 
-import com.helpdeskhub.users.service.UserService;
+import com.helpdeskhub.users.model.User;
+import com.helpdeskhub.users.enums.UserRole;
+import com.helpdeskhub.users.repository.UserRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig {
+public class UserConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Using BCrypt for password hashing
-    }
+    CommandLineRunner commandLineRunner(UserRepository repository) {
+        return args -> {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/users/**").permitAll()  // Public endpoint for user-related requests
-                .anyRequest().authenticated()  // Any other request requires authentication
-                .and()
-                .httpBasic(); // Use HTTP Basic Authentication (can replace with JWT later)
-        return http.build();  // Return the configured HttpSecurity
+            User user1 = User.builder()
+                    .firstName("John")
+                    .lastName("Doe")
+                    .email("john.doe@example.com")
+                    .passwordHash("$2a$10$somethinghashedpassword")
+                    .phoneNumber("1234567890")
+                    .role(UserRole.CUSTOMER)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            User user2 = User.builder()
+                    .firstName("Jane")
+                    .lastName("Smith")
+                    .email("jane.smith@example.com")
+                    .passwordHash("$2a$10$anotherhashedpassword")
+                    .phoneNumber("0987654321")
+                    .role(UserRole.ADMIN)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            repository.saveAll(List.of(user1, user2));
+        };
     }
 }
