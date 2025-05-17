@@ -8,9 +8,12 @@ import com.helpdeskhub.users.model.User;
 import com.helpdeskhub.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,10 +24,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
     public UserResponseDTO createUser(UserCreateDTO dto) {
         User user = userMapper.toUser(dto);
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponseDTO(savedUser);
+    }
+
+    public boolean validateCredentials(String email, String rawPassword) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+//            return passwordEncoder.matches(rawPassword, user.getPassword());
+            return rawPassword.equals(user.getPassword());
+        }
+        return false;
     }
 
     public List<UserResponseDTO> getAllUsers() {

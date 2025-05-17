@@ -1,5 +1,6 @@
 package com.helpdeskhub.users.controller;
 
+import com.helpdeskhub.users.dto.AuthRequestDTO;
 import com.helpdeskhub.users.dto.UserCreateDTO;
 import com.helpdeskhub.users.dto.UserResponseDTO;
 import com.helpdeskhub.users.dto.UserUpdateDTO;
@@ -22,6 +23,12 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO dto) {
         UserResponseDTO createdUser = userService.createUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Boolean> validateUser(@RequestBody AuthRequestDTO request) {
+        boolean isValid = userService.validateCredentials(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(isValid);
     }
 
     @GetMapping

@@ -36,7 +36,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String passwordHash;
+    private String password;
 
     @Column(unique = true, length = 20)
     private String phoneNumber;
