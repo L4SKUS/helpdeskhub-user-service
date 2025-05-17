@@ -3,13 +3,12 @@ package com.helpdeskhub.users.service;
 import com.helpdeskhub.users.dto.UserCreateDTO;
 import com.helpdeskhub.users.dto.UserResponseDTO;
 import com.helpdeskhub.users.dto.UserUpdateDTO;
+import com.helpdeskhub.users.dto.ValidationResponseDTO;
 import com.helpdeskhub.users.mapper.UserMapper;
 import com.helpdeskhub.users.model.User;
 import com.helpdeskhub.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,23 +23,25 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     public UserResponseDTO createUser(UserCreateDTO dto) {
         User user = userMapper.toUser(dto);
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponseDTO(savedUser);
     }
 
-    public boolean validateCredentials(String email, String rawPassword) {
+    public boolean validateCredentials(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-//            return passwordEncoder.matches(rawPassword, user.getPassword());
-            return rawPassword.equals(user.getPassword());
+            return password.equals(user.getPassword());
         }
         return false;
+    }
+
+    public ValidationResponseDTO getValidationResponse(String email) {
+        return userRepository.findByEmail(email)
+                .map(userMapper::toValidationResponseDTO)
+                .orElseThrow(() -> new IllegalStateException("User not found with email: " + email));
     }
 
     public List<UserResponseDTO> getAllUsers() {

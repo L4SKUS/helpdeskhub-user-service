@@ -3,6 +3,7 @@ package com.helpdeskhub.users.mapper;
 import com.helpdeskhub.users.dto.UserCreateDTO;
 import com.helpdeskhub.users.dto.UserResponseDTO;
 import com.helpdeskhub.users.dto.UserUpdateDTO;
+import com.helpdeskhub.users.dto.ValidationResponseDTO;
 import com.helpdeskhub.users.model.User;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,13 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .role(user.getRole())
+                .build();
+    }
+
+    public ValidationResponseDTO toValidationResponseDTO(User user) {
+        return ValidationResponseDTO.builder()
+                .id(user.getId())
                 .role(user.getRole())
                 .build();
     }

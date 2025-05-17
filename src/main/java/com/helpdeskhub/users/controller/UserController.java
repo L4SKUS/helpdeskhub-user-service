@@ -1,9 +1,6 @@
 package com.helpdeskhub.users.controller;
 
-import com.helpdeskhub.users.dto.AuthRequestDTO;
-import com.helpdeskhub.users.dto.UserCreateDTO;
-import com.helpdeskhub.users.dto.UserResponseDTO;
-import com.helpdeskhub.users.dto.UserUpdateDTO;
+import com.helpdeskhub.users.dto.*;
 import com.helpdeskhub.users.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,9 +23,13 @@ public class UserController {
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> validateUser(@RequestBody AuthRequestDTO request) {
+    public ResponseEntity<ValidationResponseDTO> validateUser(@RequestBody ValidationRequestDTO request) {
         boolean isValid = userService.validateCredentials(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok(isValid);
+        if (isValid) {
+            ValidationResponseDTO validationResponse = userService.getValidationResponse(request.getEmail());
+            return ResponseEntity.ok(validationResponse);
+        }
+        return null;
     }
 
     @GetMapping
