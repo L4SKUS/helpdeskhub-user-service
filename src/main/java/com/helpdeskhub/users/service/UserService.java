@@ -4,6 +4,7 @@ import com.helpdeskhub.users.dto.UserCreateDTO;
 import com.helpdeskhub.users.dto.UserResponseDTO;
 import com.helpdeskhub.users.dto.UserUpdateDTO;
 import com.helpdeskhub.users.dto.ValidationResponseDTO;
+import com.helpdeskhub.users.enums.UserRole;
 import com.helpdeskhub.users.mapper.UserMapper;
 import com.helpdeskhub.users.model.User;
 import com.helpdeskhub.users.repository.UserRepository;
@@ -47,6 +48,14 @@ public class UserService {
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
+                .map(userMapper::toUserResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserResponseDTO> getAgents() {
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> user.getRole() == UserRole.AGENT)
                 .map(userMapper::toUserResponseDTO)
                 .collect(Collectors.toList());
     }

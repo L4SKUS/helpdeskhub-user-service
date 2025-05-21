@@ -34,12 +34,34 @@ public class UserConfig {
                     .email("jane.smith@example.com")
                     .password("haslo2")
                     .phoneNumber("0987654321")
+                    .role(UserRole.AGENT)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            User user3 = User.builder()
+                    .firstName("Tony")
+                    .lastName("Lazuto")
+                    .email("tony.lazuto@example.com")
+                    .password("haslo3")
+                    .phoneNumber("0987654000")
                     .role(UserRole.ADMIN)
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            repository.saveAll(List.of(user1, user2));
+            User user4 = User.builder()
+                    .firstName("Agento")
+                    .lastName("Agentino")
+                    .email("agento.agentino@example.com")
+                    .password("haslo4")
+                    .phoneNumber("12345")
+                    .role(UserRole.AGENT)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            repository.saveAll(List.of(user1, user2, user3, user4));
         };
     }
 }

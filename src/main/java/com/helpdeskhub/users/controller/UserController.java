@@ -37,6 +37,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/agents")
+    public ResponseEntity<List<UserResponseDTO>> getAgents() {return ResponseEntity.ok(userService.getAgents());}
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer userId) {
         UserResponseDTO user = userService.getUserById(userId);
