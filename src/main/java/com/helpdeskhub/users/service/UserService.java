@@ -55,7 +55,7 @@ public class UserService {
     public List<UserResponseDTO> getAgents() {
         return userRepository.findAll()
                 .stream()
-                .filter(user -> user.getRole() == UserRole.AGENT)
+                .filter(user -> user.getRole() == UserRole.AGENT || user.getRole() == UserRole.ADMIN)
                 .map(userMapper::toUserResponseDTO)
                 .collect(Collectors.toList());
     }

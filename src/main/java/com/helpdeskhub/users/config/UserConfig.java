@@ -17,51 +17,24 @@ public class UserConfig {
     CommandLineRunner commandLineRunner(UserRepository repository) {
         return args -> {
 
-            User user1 = User.builder()
-                    .firstName("John")
-                    .lastName("Doe")
-                    .email("john.doe@example.com")
-                    .password("haslo1")
-                    .phoneNumber("1234567890")
-                    .role(UserRole.CUSTOMER)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+            boolean hasAdmin = repository.findAll().stream()
+                .anyMatch(user -> user.getRole() == UserRole.ADMIN);
 
-            User user2 = User.builder()
-                    .firstName("Jane")
-                    .lastName("Smith")
-                    .email("jane.smith@example.com")
-                    .password("haslo2")
-                    .phoneNumber("0987654321")
-                    .role(UserRole.AGENT)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
+            if (!hasAdmin) {
+                User defaultAdmin = User.builder()
+                        .firstName("Admin")
+                        .lastName("User")
+                        .email("admin@example.com")
+                        .password("admin123")
+                        .phoneNumber("0000000000")
+                        .role(UserRole.ADMIN)
+                        .createdAt(LocalDateTime.now())
+                        .updatedAt(LocalDateTime.now())
+                        .build();
 
-            User user3 = User.builder()
-                    .firstName("Tony")
-                    .lastName("Lazuto")
-                    .email("tony.lazuto@example.com")
-                    .password("haslo3")
-                    .phoneNumber("0987654000")
-                    .role(UserRole.ADMIN)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-
-            User user4 = User.builder()
-                    .firstName("Agento")
-                    .lastName("Agentino")
-                    .email("agento.agentino@example.com")
-                    .password("haslo4")
-                    .phoneNumber("12345")
-                    .role(UserRole.AGENT)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-
-            repository.saveAll(List.of(user1, user2, user3, user4));
+                repository.save(defaultAdmin);
+                System.out.println("Default admin user created: admin@example.com");
+            }
         };
     }
 }
