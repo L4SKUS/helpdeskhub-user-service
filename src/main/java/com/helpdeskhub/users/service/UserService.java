@@ -30,11 +30,11 @@ public class UserService {
         return userMapper.toUserResponseDTO(savedUser);
     }
 
-    public boolean validateCredentials(String email, String password) {
+    public boolean validateCredentials(String email, String passwordHash) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            return password.equals(user.getPassword());
+            return passwordHash.equals(user.getPasswordHash());
         }
         return false;
     }

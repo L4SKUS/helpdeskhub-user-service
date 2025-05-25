@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/validate")
     public ResponseEntity<ValidationResponseDTO> validateUser(@RequestBody ValidationRequestDTO request) {
-        boolean isValid = userService.validateCredentials(request.getEmail(), request.getPassword());
+        boolean isValid = userService.validateCredentials(request.getEmail(), request.getPasswordHash());
         if (isValid) {
             ValidationResponseDTO validationResponse = userService.getValidationResponse(request.getEmail());
             return ResponseEntity.ok(validationResponse);

@@ -15,7 +15,7 @@ public class UserMapper {
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .passwordHash(dto.getPasswordHash())
                 .phoneNumber(dto.getPhoneNumber())
                 .role(dto.getRole())
                 .build();
@@ -52,8 +52,8 @@ public class UserMapper {
         if (dto.getPhoneNumber() != null) {
             user.setPhoneNumber(dto.getPhoneNumber());
         }
-        if (dto.getPassword() != null) {
-            user.setPassword(dto.getPassword());
+        if (dto.getPasswordHash() != null) {
+            user.setPasswordHash(dto.getPasswordHash());
         }
     }
 }
