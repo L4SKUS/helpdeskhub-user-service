@@ -1,9 +1,6 @@
 package com.helpdeskhub.users.service;
 
-import com.helpdeskhub.users.dto.UserCreateDTO;
-import com.helpdeskhub.users.dto.UserResponseDTO;
-import com.helpdeskhub.users.dto.UserUpdateDTO;
-import com.helpdeskhub.users.dto.ValidationResponseDTO;
+import com.helpdeskhub.users.dto.*;
 import com.helpdeskhub.users.enums.UserRole;
 import com.helpdeskhub.users.mapper.UserMapper;
 import com.helpdeskhub.users.model.User;
@@ -75,10 +72,19 @@ public class UserService {
     public UserResponseDTO updateUser(Integer userId, UserUpdateDTO dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User not found with id: " + userId));
-
         userMapper.updateUserFromDTO(user, dto);
         User updatedUser = userRepository.save(user);
         return userMapper.toUserResponseDTO(updatedUser);
+    }
+
+    public void changePassword(Integer userId, PasswordUpdateDTO dto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException("User not found with id: " + userId));
+        if (!dto.getCurrentPasswordHash().equals(user.getPasswordHash())) {
+            throw new IllegalArgumentException("Current password is incorrect.");
+        }
+        user.setPasswordHash(dto.getNewPasswordHash());
+        userRepository.save(user);
     }
 
     public void deleteUser(Integer userId) {

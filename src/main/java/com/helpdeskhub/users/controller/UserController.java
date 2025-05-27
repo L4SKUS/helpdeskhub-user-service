@@ -60,6 +60,14 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PutMapping("/{userId}/password")
+    public ResponseEntity<Void> updatePassword(
+            @PathVariable Integer userId,
+            @RequestBody PasswordUpdateDTO dto) {
+        userService.changePassword(userId, dto);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Integer userId) {
