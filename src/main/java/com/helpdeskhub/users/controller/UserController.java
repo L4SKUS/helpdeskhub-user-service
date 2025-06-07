@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/agents")
-    public ResponseEntity<List<UserResponseDTO>> getAgents() {return ResponseEntity.ok(userService.getAgents());}
+    public ResponseEntity<List<UserResponseDTO>> getEmployees() {return ResponseEntity.ok(userService.getEmployees());}
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer userId) {
