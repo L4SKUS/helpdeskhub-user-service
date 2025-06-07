@@ -25,7 +25,7 @@ public class UserConfig {
                         .firstName("Admin")
                         .lastName("User")
                         .email("admin@domain.com")
-                        .passwordHash("$2a$10$KbQiZtWxqMZ9k2FvO6yLUOao5N5pBhXV0Kw9yG4HBGupf3zgOaepy")
+                        .passwordHash("$2a$10$KbQiZtWxqMZ9k2FvO6yLUO2IVB033w6zS/V7ay1nyI9ZPBiLPpPeO") //haslo1
                         .phoneNumber("0000000000")
                         .role(UserRole.ADMIN)
                         .createdAt(LocalDateTime.now())
