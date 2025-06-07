@@ -49,10 +49,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserResponseDTO> getAgents() {
+    public List<UserResponseDTO> getEmployees() {
         return userRepository.findAll()
                 .stream()
-                .filter(user -> user.getRole() == UserRole.AGENT || user.getRole() == UserRole.ADMIN)
+                .filter(user -> user.getRole() == UserRole.EMPLOYEE || user.getRole() == UserRole.ADMIN)
                 .map(userMapper::toUserResponseDTO)
                 .collect(Collectors.toList());
     }
