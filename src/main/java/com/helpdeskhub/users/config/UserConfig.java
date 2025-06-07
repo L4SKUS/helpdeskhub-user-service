@@ -24,7 +24,7 @@ public class UserConfig {
                 User defaultAdmin = User.builder()
                         .firstName("Admin")
                         .lastName("User")
-                        .email("admin@example.com")
+                        .email("admin@domain.com")
                         .passwordHash("$2a$10$KbQiZtWxqMZ9k2FvO6yLUOao5N5pBhXV0Kw9yG4HBGupf3zgOaepy")
                         .phoneNumber("0000000000")
                         .role(UserRole.ADMIN)
@@ -33,7 +33,7 @@ public class UserConfig {
                         .build();
 
                 repository.save(defaultAdmin);
-                System.out.println("Default admin user created: admin@example.com");
+                System.out.println("Default admin user created: admin@domain.com");
             }
         };
     }
