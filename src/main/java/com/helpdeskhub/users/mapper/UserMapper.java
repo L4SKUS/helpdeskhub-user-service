@@ -55,5 +55,8 @@ public class UserMapper {
         if (dto.getPasswordHash() != null) {
             user.setPasswordHash(dto.getPasswordHash());
         }
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        }
     }
 }
